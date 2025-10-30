@@ -1,0 +1,7 @@
+.inputborder {
+  background: linear-gradient(to right, #E67050, #DB2268);
+  background-clip: padding-box, border-box;
+  border: 1.5px solid transparent;
+  border-radius: 14px;
+  background-origin: border-box;
+}

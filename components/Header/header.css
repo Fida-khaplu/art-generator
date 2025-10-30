@@ -1,0 +1,10 @@
+.list_item{
+    /* font-family: "Poppins"; */
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.btnClass{
+    background: linear-gradient(90deg, #E67050 0%, #DB2268 100%);
+
+}
