@@ -2,15 +2,44 @@
 import '../../app/home.css'
 import Image from 'next/image'
 import { ChevronDown, Info } from 'lucide-react'
-import { aspectRatioData, imgData, modelData } from '@/data/data'
+import { aspectRatioData, modelData } from '@/data/data'
 import AspectRatioCard from '../utils/aspectRatioCard'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ModelCard from '../utils/modelCard'
+import axios from 'axios'
 
-export default function RightSec() {
+interface SelectedData {
+  title: string;
+  img: string;
+}
+interface RightSecProps {
+  selected: SelectedData | null;
+}
+
+interface modelImgData {
+    img: string;
+}
+
+export default function RightSec({selected}:RightSecProps) {
     const [activeIndex, setActiveIndex] = useState<number | null>(0);
     const [activeIndexModal, setActiveIndexModal] = useState<number | null>(0);
+  const [data, setData] = useState<modelImgData[]>([]);
 
+
+      useEffect(() => {
+      const fetchData = async () => {
+        try {
+    
+          const res = await axios.get("/api/model");
+    
+          setData(res.data.data); 
+        } catch (err) {
+          console.error("Error fetching inspirations:", err);
+        }
+      };
+    
+      fetchData();
+    }, []);
 
     return (
         <div className='mx-[20px]'>
@@ -21,6 +50,8 @@ export default function RightSec() {
 
                     <textarea
                         placeholder="Describe what you want to create"
+                        value={selected?.title}
+                        disabled
                         rows={6}
                         className="flex-1 px-[10px] lg:px-[15px] outline-none text-[12px] bg-transparent resize-none"
                     />
@@ -86,9 +117,9 @@ export default function RightSec() {
                 }
             </div>
 
-            <div className='grid lg:grid-cols-3  gap-[10px] lg:pb-[140px]'>
+            <div className='grid grid-cols-3  gap-[10px] lg:pb-[140px]'>
                 {
-                    imgData.map((item, index) => (
+                    data.map((item, index) => (
 
                         <Image
                             key={index}
@@ -103,7 +134,7 @@ export default function RightSec() {
                 }
             </div>
 
-             <button className="lg:w-[360px] text-white py-[9px] lg:py-[15px] text-[10px] lg:text-[18px] font-semibold rounded-[8px] lg:rounded-[12px] bg-gradient-to-r from-[#E67050] to-[#DB2268]">
+             <button className=" w-full lg:w-[360px] text-white py-[9px] lg:py-[15px] text-[10px] lg:text-[18px] font-semibold rounded-[8px] lg:rounded-[12px] bg-gradient-to-r from-[#E67050] to-[#DB2268]">
               Generate
             </button>
 

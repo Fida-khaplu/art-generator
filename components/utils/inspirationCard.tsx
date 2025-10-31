@@ -1,7 +1,10 @@
 "use client";
 
+import { setSelectedInspiration } from "@/lib/feature/inspirationSlice";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
+import { useDispatch } from "react-redux";
 
 interface InspirationCardProps {
   img: string;
@@ -24,13 +27,20 @@ const InspirationCard: React.FC<InspirationCardProps> = ({
 }) => {
 
   const heightClass = variant === "large" ? "h-[220px]" : "h-[105px]";
+  const router = useRouter();
+    const dispatch = useDispatch();
+
+  const handleClick = ()=>{
+     dispatch(setSelectedInspiration({img, title }));
+    router.push('/text-to-image')
+  }
 
   return (
     <>
       {screen == "desktop" ? (
         // 💻 DESKTOP VERSION
         <div
-          onClick={onClick}
+          onClick={handleClick}
           className="cursor-pointer rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300"
         >
           <Image
@@ -46,11 +56,10 @@ const InspirationCard: React.FC<InspirationCardProps> = ({
       ) : (
         
         <div
-          onClick={onClick}
+          onClick={handleClick}
           className={`relative  cursor-pointer rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300`}
         >
           <Image
-            // className={`w-full h-${height} object-cover `}
             className={`w-full ${heightClass} object-cover`}
             src={img}
             alt={title}

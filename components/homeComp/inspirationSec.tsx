@@ -1,65 +1,20 @@
 "use client";
 
 import InspirationCard from "../utils/inspirationCard";
-import { Data } from "@/data/data";
 
-// const data = [
-//     {
-//         "title": "A painting of a woman with long hairs",
-//         "img": "/homePics/pic1.png"
-//     },
-//     {
-//         "title": "A painting of a woman with long hairs",
-//         "img": "/homePics/pic2.png"
-//     },
-//     {
-//         "title": "A painting of a woman with long hairs",
-//         "img": "/homePics/pic3.png"
-//     },
-//     {
-//         "title": "A painting of a woman with long hairs",
-//         "img": "/homePics/pic4.png"
-//     },
-//     {
-//         "title": "A painting of a woman with long hairs",
-//         "img": "/homePics/pic5.png"
-//     },
-//     {
-//         "title": "A painting of a woman with long hairs",
-//         "img": "/homePics/pic6.png"
-//     },
-//     {
-//         "title": "A painting of a woman with long hairs",
-//         "img": "/homePics/pic7.png"
-//     },
-//     {
-//         "title": "A painting of a woman with long hairs",
-//         "img": "/homePics/pic8.png"
-//     },
-//     {
-//         "title": "A painting of a woman with long hairs",
-//         "img": "/homePics/pic9.png"
-//     },
-//     {
-//         "title": "A painting of a woman with long hairs",
-//         "img": "/homePics/pic10.png"
-//     },
-//     {
-//         "title": "A painting of a woman with long hairs",
-//         "img": "/homePics/pic11.png"
-//     },
-//     {
-//         "title": "A painting of a woman with long hairs",
-//         "img": "/homePics/pic12.png"
-//     }
-// ]
+interface InspirationSecProps {
+  data: {
+    title: string;
+    img: string;
+  }[];
+}
 
-const InspirationSec = () => {
-    const groupedData = Data.reduce((rows: any[], _, index) => {
-        if (index % 3 === 0) rows.push(Data.slice(index, index + 3));
+const InspirationSec = ({ data }: InspirationSecProps) => {
+    
+    const groupedData = data.reduce((rows: any[], _, index) => {
+        if (index % 3 === 0) rows.push(data.slice(index, index + 3));
         return rows;
     }, []);
-    console.log(groupedData, "grouped data");
 
     return (
         <div>
@@ -73,7 +28,6 @@ const InspirationSec = () => {
                         className={`grid grid-cols-2 gap-4 ${rowIndex % 2 !== 0 ? "direction-rtl" : ""
                             }`}
                     >
-                        {/* Big Card (left on odd rows, right on even rows) */}
                         <div
                             className={`row-span-2 ${rowIndex % 2 !== 0 ? "order-last" : "order-first"
                                 }`}
@@ -109,7 +63,7 @@ const InspirationSec = () => {
             </div>
 
             <div className="hidden lg:grid lg:grid-cols-4 gap-6 p-6">
-                {Data.map((item, index) => (
+                {data.map((item, index) => (
                     <InspirationCard
                         key={index}
                         img={item.img}

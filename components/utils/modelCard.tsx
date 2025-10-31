@@ -11,7 +11,7 @@ interface modelCardProps {
 }
 const ModelCard: React.FC<modelCardProps> = ({ img, title, titleSec, isActive ,onClick }) => {
     return (
-        <div className='lg:pb-[15px]'>
+        <div className='pb-[10px] lg:pb-[15px]'>
             <div onClick={onClick} className={`w-[174px] flex  justify-between item-center p-[6px] ${isActive ? "border-[1px] border-[#FA5711] bg-[#FA57111A]" : "border-[1px] border-[#FA57111A]"}  rounded-lg`}>
                 <div>
                     <p className='text-[10px] pt-[6px]'>{title}</p>

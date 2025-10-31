@@ -1,19 +1,41 @@
 "use client"
-import InspirationCard from '@/components/utils/inspirationCard';
 import './home.css'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from '@/components/Header/header';
 import InspirationSec from '@/components/homeComp/inspirationSec';
+import axios from "axios";
 
 
 
+interface InspirationData {
+    title: string;
+    img: string;
+}
 
 export default function Home() {
   const [inputVal, setInputVal] = useState('');
+  const [data, setData] = useState<InspirationData[]>([]);
+
   const handleInputChange = () => {
     console.log("change");
 
   }
+
+  useEffect(() => {
+  const fetchData = async () => {
+    try {
+
+      const res = await axios.get("/api/inspirations");
+
+      setData(res.data.data); 
+    } catch (err) {
+      console.error("Error fetching inspirations:", err);
+    }
+  };
+
+  fetchData();
+}, []);
+
   return (
     <div className=" max-w-[1440px] px-[16px] lg:px-[60px] m-auto">
       <Header/>
@@ -45,7 +67,7 @@ export default function Home() {
         </div>
       </div>
 
-      <InspirationSec/>
+      <InspirationSec data={data}/>
 
       
     </div>

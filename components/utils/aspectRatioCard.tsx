@@ -10,7 +10,6 @@ interface AspectRationCardProps {
 }
 
 const AspectRatioCard: React.FC<AspectRationCardProps> = ({ img, ratio,onClick, title ,isActive }) => {
-    console.log(isActive , "isActive");
     
     return (
         <div className='pb-[20px]'>
