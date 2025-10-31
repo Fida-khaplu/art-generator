@@ -1,61 +1,62 @@
 "use client";
 
 import InspirationCard from "../utils/inspirationCard";
+import { Data } from "@/data/data";
 
-const data = [
-    {
-        "title": "A painting of a woman with long hairs",
-        "img": "/homePics/pic1.png"
-    },
-    {
-        "title": "A painting of a woman with long hairs",
-        "img": "/homePics/pic2.png"
-    },
-    {
-        "title": "A painting of a woman with long hairs",
-        "img": "/homePics/pic3.png"
-    },
-    {
-        "title": "A painting of a woman with long hairs",
-        "img": "/homePics/pic4.png"
-    },
-    {
-        "title": "A painting of a woman with long hairs",
-        "img": "/homePics/pic5.png"
-    },
-    {
-        "title": "A painting of a woman with long hairs",
-        "img": "/homePics/pic6.png"
-    },
-    {
-        "title": "A painting of a woman with long hairs",
-        "img": "/homePics/pic7.png"
-    },
-    {
-        "title": "A painting of a woman with long hairs",
-        "img": "/homePics/pic8.png"
-    },
-    {
-        "title": "A painting of a woman with long hairs",
-        "img": "/homePics/pic9.png"
-    },
-    {
-        "title": "A painting of a woman with long hairs",
-        "img": "/homePics/pic10.png"
-    },
-    {
-        "title": "A painting of a woman with long hairs",
-        "img": "/homePics/pic11.png"
-    },
-    {
-        "title": "A painting of a woman with long hairs",
-        "img": "/homePics/pic12.png"
-    }
-]
+// const data = [
+//     {
+//         "title": "A painting of a woman with long hairs",
+//         "img": "/homePics/pic1.png"
+//     },
+//     {
+//         "title": "A painting of a woman with long hairs",
+//         "img": "/homePics/pic2.png"
+//     },
+//     {
+//         "title": "A painting of a woman with long hairs",
+//         "img": "/homePics/pic3.png"
+//     },
+//     {
+//         "title": "A painting of a woman with long hairs",
+//         "img": "/homePics/pic4.png"
+//     },
+//     {
+//         "title": "A painting of a woman with long hairs",
+//         "img": "/homePics/pic5.png"
+//     },
+//     {
+//         "title": "A painting of a woman with long hairs",
+//         "img": "/homePics/pic6.png"
+//     },
+//     {
+//         "title": "A painting of a woman with long hairs",
+//         "img": "/homePics/pic7.png"
+//     },
+//     {
+//         "title": "A painting of a woman with long hairs",
+//         "img": "/homePics/pic8.png"
+//     },
+//     {
+//         "title": "A painting of a woman with long hairs",
+//         "img": "/homePics/pic9.png"
+//     },
+//     {
+//         "title": "A painting of a woman with long hairs",
+//         "img": "/homePics/pic10.png"
+//     },
+//     {
+//         "title": "A painting of a woman with long hairs",
+//         "img": "/homePics/pic11.png"
+//     },
+//     {
+//         "title": "A painting of a woman with long hairs",
+//         "img": "/homePics/pic12.png"
+//     }
+// ]
 
 const InspirationSec = () => {
-    const groupedData = data.reduce((rows: any[], _, index) => {
-        if (index % 3 === 0) rows.push(data.slice(index, index + 3));
+    const groupedData = Data.reduce((rows: any[], _, index) => {
+        if (index % 3 === 0) rows.push(Data.slice(index, index + 3));
         return rows;
     }, []);
     console.log(groupedData, "grouped data");
@@ -108,7 +109,7 @@ const InspirationSec = () => {
             </div>
 
             <div className="hidden lg:grid lg:grid-cols-4 gap-6 p-6">
-                {data.map((item, index) => (
+                {Data.map((item, index) => (
                     <InspirationCard
                         key={index}
                         img={item.img}

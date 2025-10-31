@@ -11,7 +11,7 @@ export default function Header() {
             <div className=" flex gap-[50px]">
                 <Link href='/'>
                     <Image
-                      className="w-[160px] h-[20px] md:w-[279px] md:h-[36px]"
+                      className="w-[160px] h-[20px] md:w-[279px] md:h-[36px] object-contain"
                         src="/art-generator.png"
                         alt="art-generator logo"
                         width={279}
