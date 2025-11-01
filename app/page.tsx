@@ -67,7 +67,7 @@ export default function Home() {
               value={inputVal}
               placeholder="Enter prompt here..."
               onChange={handleInputChange}
-              className="flex-1 px-[10px] lg:px-[30px] outline-none text-gray-700 bg-transparent"
+              className="flex-1 w-[200px] md:w-full px-[10px] lg:px-[30px] outline-none text-gray-700 bg-transparent"
             />
             <button className="px-[11px] lg:px-[40px] text-white cursor-pointer py-[9px] lg:py-[13px] text-[10px] lg:text-[20px] rounded-[8px] lg:rounded-[12px] bg-gradient-to-r from-[#E67050] to-[#DB2268]">
               Generate

@@ -42,13 +42,13 @@ export default function Header() {
                 </nav>
             </div>
             <div className=" hidden md:block">
-                <button className="px-[30px] text-white py-[12px] rounded-[12px]   bg-gradient-to-r from-[#E67050] to-[#DB2268]">
+                <button className="px-[30px] cursor-pointer text-white py-[12px] rounded-[12px]   bg-gradient-to-r from-[#E67050] to-[#DB2268]">
                     Sign in
                 </button>
             </div>
             <div className=" block md:hidden">
                 <Image
-                    className=" bg-green-500 rounded-4xl"
+                    className=" bg-green-500 rounded-4xl cursor-pointer"
                     src="/profile.png"
                     alt="login-icon"
                     width={20}
