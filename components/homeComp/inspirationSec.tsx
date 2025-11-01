@@ -2,15 +2,17 @@
 
 import InspirationCard from "../utils/inspirationCard";
 
+
 interface InspirationSecProps {
-  data: {
-    title: string;
-    img: string;
-  }[];
+    data: {
+        title: string;
+        img: string;
+    }[];
+    onCardClick?: (title: string) => void;
 }
 
-const InspirationSec = ({ data }: InspirationSecProps) => {
-    
+const InspirationSec = ({ data, onCardClick }: InspirationSecProps) => {
+
     const groupedData = data.reduce((rows: any[], _, index) => {
         if (index % 3 === 0) rows.push(data.slice(index, index + 3));
         return rows;
@@ -40,13 +42,15 @@ const InspirationSec = ({ data }: InspirationSecProps) => {
                                     screen="mobile"
                                     height={220}
                                     width={166}
+                                    onClick={() => onCardClick?.(group[0].title)}
+
                                 />
                             )}
                         </div>
 
                         {/* Two stacked small cards */}
                         <div className="flex flex-col gap-[10px]">
-                            {group.slice(1).map((item:any, i:any) => (
+                            {group.slice(1).map((item: any, i: any) => (
                                 <InspirationCard
                                     key={i}
                                     img={item.img}
@@ -55,6 +59,8 @@ const InspirationSec = ({ data }: InspirationSecProps) => {
                                     screen="mobile"
                                     height={105}
                                     width={166}
+                                    onClick={() => onCardClick?.(item.title)}
+
                                 />
                             ))}
                         </div>
@@ -71,6 +77,8 @@ const InspirationSec = ({ data }: InspirationSecProps) => {
                         screen="desktop"
                         height={280}
                         width={280}
+                        onClick={() => onCardClick?.(item.title)}
+
                     />
                 ))}
             </div>

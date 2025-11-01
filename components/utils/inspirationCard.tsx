@@ -31,8 +31,10 @@ const InspirationCard: React.FC<InspirationCardProps> = ({
     const dispatch = useDispatch();
 
   const handleClick = ()=>{
-     dispatch(setSelectedInspiration({img, title }));
-    router.push('/text-to-image')
+       dispatch(setSelectedInspiration({img, title }));
+     if (onClick) {
+      onClick();
+    }
   }
 
   return (

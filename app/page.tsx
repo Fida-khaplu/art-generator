@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Header from '@/components/Header/header';
 import InspirationSec from '@/components/homeComp/inspirationSec';
 import axios from "axios";
+import { useRouter } from 'next/navigation';
 
 
 
@@ -15,17 +16,25 @@ interface InspirationData {
 export default function Home() {
   const [inputVal, setInputVal] = useState('');
   const [data, setData] = useState<InspirationData[]>([]);
+  const router = useRouter();
 
-  const handleInputChange = () => {
-    console.log("change");
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputVal(e.target.value);
+  };
+  
 
-  }
+   const handleCardClick = (title: string) => {
+    setInputVal(title);
+    setTimeout(() => {
+      router.push("/text-to-image");
+    }, 300);
+  };
 
   useEffect(() => {
   const fetchData = async () => {
     try {
 
-      const res = await axios.get("/api/inspirations");
+      const res = await axios.get("/api/inspirations");      
 
       setData(res.data.data); 
     } catch (err) {
@@ -60,14 +69,14 @@ export default function Home() {
               onChange={handleInputChange}
               className="flex-1 px-[10px] lg:px-[30px] outline-none text-gray-700 bg-transparent"
             />
-            <button className="px-[11px] lg:px-[40px] text-white py-[9px] lg:py-[13px] text-[10px] lg:text-[20px] rounded-[8px] lg:rounded-[12px] bg-gradient-to-r from-[#E67050] to-[#DB2268]">
+            <button className="px-[11px] lg:px-[40px] text-white cursor-pointer py-[9px] lg:py-[13px] text-[10px] lg:text-[20px] rounded-[8px] lg:rounded-[12px] bg-gradient-to-r from-[#E67050] to-[#DB2268]">
               Generate
             </button>
           </div>
         </div>
       </div>
 
-      <InspirationSec data={data}/>
+      <InspirationSec data={data} onCardClick={handleCardClick}/>
 
       
     </div>

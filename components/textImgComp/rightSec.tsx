@@ -9,36 +9,53 @@ import ModelCard from '../utils/modelCard'
 import axios from 'axios'
 
 interface SelectedData {
-  title: string;
-  img: string;
+    title: string;
+    img: string;
 }
 interface RightSecProps {
-  selected: SelectedData | null;
+    selected: SelectedData | null;
 }
 
 interface modelImgData {
     img: string;
 }
 
-export default function RightSec({selected}:RightSecProps) {
+export default function RightSec({ selected }: RightSecProps) {
     const [activeIndex, setActiveIndex] = useState<number | null>(0);
     const [activeIndexModal, setActiveIndexModal] = useState<number | null>(0);
-  const [data, setData] = useState<modelImgData[]>([]);
+    const [data, setData] = useState<modelImgData[]>([]);
 
 
-      useEffect(() => {
-      const fetchData = async () => {
-        try {
-    
-          const res = await axios.get("/api/model");
-    
-          setData(res.data.data); 
-        } catch (err) {
-          console.error("Error fetching inspirations:", err);
+    const handleGenerate = async () => {
+        if (!selected?.title) {
+            return;
         }
-      };
-    
-      fetchData();
+
+        try {
+            const res = await axios.post("/api/model", {
+                prompt: selected.title,
+            });
+
+            if (res.data?.data) setData(res.data.data);
+        } catch (error) {
+            console.error("❌ Error generating image:", error);
+        }
+    };
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+
+                const res = await axios.get("/api/model");
+
+                setData(res.data.data);
+            } catch (err) {
+                console.error("Error fetching inspirations:", err);
+            }
+        };
+
+        fetchData();
     }, []);
 
     return (
@@ -134,8 +151,8 @@ export default function RightSec({selected}:RightSecProps) {
                 }
             </div>
 
-             <button className=" w-full lg:w-[360px] text-white py-[9px] lg:py-[15px] text-[10px] lg:text-[18px] font-semibold rounded-[8px] lg:rounded-[12px] bg-gradient-to-r from-[#E67050] to-[#DB2268]">
-              Generate
+            <button onClick={handleGenerate} className=" w-full cursor-pointer lg:w-[360px] text-white py-[9px] lg:py-[15px] text-[10px] lg:text-[18px] font-semibold rounded-[8px] lg:rounded-[12px] bg-gradient-to-r from-[#E67050] to-[#DB2268]">
+                Generate
             </button>
 
 
