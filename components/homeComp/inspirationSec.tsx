@@ -1,6 +1,6 @@
 "use client";
 
-import InspirationCard from "../utils/inspirationCard";
+import InspirationCard from "../utilities/inspirationCard";
 
 
 interface InspirationSecProps {
@@ -12,6 +12,9 @@ interface InspirationSecProps {
 }
 
 const InspirationSec = ({ data, onCardClick }: InspirationSecProps) => {
+
+    console.log("data inside inpspiration ===>", data);
+    
 
     const groupedData = data.reduce((rows: any[], _, index) => {
         if (index % 3 === 0) rows.push(data.slice(index, index + 3));
@@ -48,7 +51,6 @@ const InspirationSec = ({ data, onCardClick }: InspirationSecProps) => {
                             )}
                         </div>
 
-                        {/* Two stacked small cards */}
                         <div className="flex flex-col gap-[10px]">
                             {group.slice(1).map((item: any, i: any) => (
                                 <InspirationCard

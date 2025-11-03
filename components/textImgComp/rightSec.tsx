@@ -3,60 +3,61 @@ import '../../app/home.css'
 import Image from 'next/image'
 import { ChevronDown, Info } from 'lucide-react'
 import { aspectRatioData, modelData } from '@/data/data'
-import AspectRatioCard from '../utils/aspectRatioCard'
+import AspectRatioCard from '../utilities/aspectRatioCard'
 import { useEffect, useState } from 'react'
-import ModelCard from '../utils/modelCard'
+import ModelCard from '../utilities/modelCard'
 import axios from 'axios'
+import { generateImage } from '@/api/api'
 
 interface SelectedData {
     title: string;
     img: string;
 }
+
+
 interface RightSecProps {
     selected: SelectedData | null;
+    data: {
+        id: string;
+        name: string;
+        img: string;
+    }[];
+    setLoading: (loading: boolean) => void;
 }
 
-interface modelImgData {
-    img: string;
-}
 
-export default function RightSec({ selected }: RightSecProps) {
+export default function RightSec({ selected, data, setLoading }: RightSecProps) {
     const [activeIndex, setActiveIndex] = useState<number | null>(0);
     const [activeIndexModal, setActiveIndexModal] = useState<number | null>(0);
-    const [data, setData] = useState<modelImgData[]>([]);
+    // const [selectedModel, setSelectedModel] = useState<string | null>(null);
+    const [selectedModel, setSelectedModel] = useState<string>('');
 
 
-    const handleGenerate = async () => {
-        if (!selected?.title) {
-            return;
-        }
-
-        try {
-            const res = await axios.post("/api/model", {
-                prompt: selected.title,
-            });
-
-            if (res.data?.data) setData(res.data.data);
-        } catch (error) {
-            console.error("❌ Error generating image:", error);
-        }
+    const handleImageClick = (name: string) => {
+        setSelectedModel(name);
+        console.log("Selected model:", name);
     };
 
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
 
-                const res = await axios.get("/api/model");
+    const handleGenerate = async () => {
 
-                setData(res.data.data);
-            } catch (err) {
-                console.error("Error fetching inspirations:", err);
-            }
-        };
+        try {
+            setLoading(true);
+            const res = await generateImage({
+                prompt: selected?.title || '',
+                model: selectedModel,
+            });
 
-        fetchData();
-    }, []);
+            console.log("post request response ====>>>", res);
+
+        } catch (err) {
+            console.error("❌ Generation failed:", err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     return (
         <div className='mx-[20px]'>
@@ -134,27 +135,31 @@ export default function RightSec({ selected }: RightSecProps) {
                 }
             </div>
 
-            <div className='grid grid-cols-3  gap-[10px] lg:pb-[140px]'>
-                {
-                    data.map((item, index) => (
-
+            <div className='grid grid-cols-3 gap-[10px] lg:pb-[140px]'>
+                {data.map((item, index) => (
+                    <div
+                        className={`relative w-full cursor-pointer rounded-md ${selectedModel === item.name ? 'border-2 border-[#FA5711]' : ''
+                            }`}
+                        onClick={() => handleImageClick(item.name)}
+                        key={index} >
                         <Image
-                            key={index}
+
                             src={item.img}
                             width={113}
                             height={90}
-                            alt='img'
-
+                            alt={item.name}
+                            className="w-full h-full object-cover rounded-md "
                         />
-                    ))
-
-                }
+                        <p className="absolute inset-0 flex items-end justify-center text-white font-semibold text-[10px] pb-[13px] rounded-md">
+                            {item.name}
+                        </p>
+                    </div>
+                ))}
             </div>
 
             <button onClick={handleGenerate} className=" w-full cursor-pointer lg:w-[360px] text-white py-[9px] lg:py-[15px] text-[10px] lg:text-[18px] font-semibold rounded-[8px] lg:rounded-[12px] bg-gradient-to-r from-[#E67050] to-[#DB2268]">
                 Generate
             </button>
-
 
         </div>
     )

@@ -5,49 +5,65 @@ import Header from '@/components/Header/header';
 import InspirationSec from '@/components/homeComp/inspirationSec';
 import axios from "axios";
 import { useRouter } from 'next/navigation';
+import { getAllInspirations } from '@/api/api';
+import Loading from './loading';
 
 
 
 interface InspirationData {
-    title: string;
-    img: string;
+  title: string;
+  img: string;
 }
 
 export default function Home() {
   const [inputVal, setInputVal] = useState('');
-  const [data, setData] = useState<InspirationData[]>([]);
+  const [inspirations, setInspirations] = useState<InspirationData[]>([]);
+  const [loading, setLoading] = useState(true);
+
   const router = useRouter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputVal(e.target.value);
   };
-  
 
-   const handleCardClick = (title: string) => {
+
+  const handleCardClick = (title: string) => {
     setInputVal(title);
     setTimeout(() => {
       router.push("/text-to-image");
     }, 300);
   };
 
+
   useEffect(() => {
-  const fetchData = async () => {
-    try {
-
-      const res = await axios.get("/api/inspirations");      
-
-      setData(res.data.data); 
-    } catch (err) {
-      console.error("Error fetching inspirations:", err);
+    async function loadData() {
+      try {
+        const data = await getAllInspirations();
+        const formattedData = data.data.map((item: any) => ({
+          title: item.generation_info?.prompt || "Untitled",
+          img: item.images?.[0]?.image
+            ? `https://cognise.art/${item.images[0].image}`
+            : "/fallback.png",
+        }));
+        setInspirations(formattedData);
+      } catch (err) {
+        console.error("Error loading inspirations:", err);
+      } finally {
+        setLoading(false);
+      }
     }
-  };
 
-  fetchData();
-}, []);
+    loadData();
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
+
 
   return (
     <div className=" max-w-[1440px] px-[16px] lg:px-[60px] m-auto">
-      <Header/>
+      <Header />
       <div className="py-[30px] lg:py-[60px] ">
         <h1 className="pb-[20px] font-semibold text-[20px] lg:text-[50px] text-center text-[#222222]">AI Art Generator</h1>
         <p className=" w-full lg:w-[925px] m-auto text-center text-[#666666] text-[10px] lg:text-[20px]">
@@ -76,9 +92,9 @@ export default function Home() {
         </div>
       </div>
 
-      <InspirationSec data={data} onCardClick={handleCardClick}/>
+      <InspirationSec data={inspirations} onCardClick={handleCardClick} />
 
-      
+
     </div>
 
   );
