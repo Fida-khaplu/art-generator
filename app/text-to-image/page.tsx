@@ -14,13 +14,11 @@ import Loading from '../loading';
 
 export default function TextToImage() {
 
-     const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useDispatch<AppDispatch>();
     const { models } = useSelector((state: RootState) => state.models);
     const selected = useSelector((state: RootState) => state.inspiration.selected);
-        const { loading } = useSelector((state: RootState) => state.generatedImage);
+    const { loading } = useSelector((state: RootState) => state.generatedImage);
 
-
-    // Fetch models once when component mounts
     useEffect(() => {
         if (models.length === 0) {
             dispatch(fetchModels());
@@ -31,7 +29,7 @@ export default function TextToImage() {
         <div className=''>
             <TextToImageHeader />
             {loading && (
-               <Loading/>
+                <Loading />
             )}
 
             <div className=' lg:border-t-[1px] border-[#EEEEEE]'>
@@ -60,7 +58,7 @@ export default function TextToImage() {
 
                     </div>
                     <div className=' w-full lg:w-[400px] pt-[20px]'>
-                        <RightSec selected={selected} data={models}/>
+                        <RightSec selected={selected} data={models} />
                     </div>
                 </div>
 

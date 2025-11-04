@@ -42,7 +42,7 @@ export default function RightSec({ selected, data }: RightSecProps) {
     }
 
     const handleGenerate = async () => {
-       
+
         try {
             dispatch(setLoading(true))
 
