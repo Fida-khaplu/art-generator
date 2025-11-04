@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 // const BASE_URL = "https://eval.funsol.cloud/api/generation/models"
 const BASE_URL ="https://eval.funsol.cloud"
 

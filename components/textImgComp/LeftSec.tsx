@@ -9,6 +9,8 @@ interface LeftSecProps {
 }
 
 export default function LeftSec({data}:LeftSecProps) {
+    console.log("data left Sec", data);
+    
     return (
         <div>
             <h3 className='text-[16px] text-center font-semibold py-[20px]  text-[#222222] border-b-[1px] border-[#EEEEEE]'>My Creations</h3>

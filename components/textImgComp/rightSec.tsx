@@ -8,6 +8,11 @@ import { useEffect, useState } from 'react'
 import ModelCard from '../utilities/modelCard'
 import axios from 'axios'
 import { generateImage } from '@/api/api'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '@/lib/store'
+import { setGeneratedImage, setLoading } from '@/lib/feature/generateImageSlice' // <-- Import here!
+
+
 
 interface SelectedData {
     title: string;
@@ -22,42 +27,44 @@ interface RightSecProps {
         name: string;
         img: string;
     }[];
-    setLoading: (loading: boolean) => void;
 }
 
+export default function RightSec({ selected, data }: RightSecProps) {
+    const dispatch = useDispatch<AppDispatch>()
 
-export default function RightSec({ selected, data, setLoading }: RightSecProps) {
-    const [activeIndex, setActiveIndex] = useState<number | null>(0);
-    const [activeIndexModal, setActiveIndexModal] = useState<number | null>(0);
-    // const [selectedModel, setSelectedModel] = useState<string | null>(null);
-    const [selectedModel, setSelectedModel] = useState<string>('');
+    const [activeIndex, setActiveIndex] = useState<number | null>(0)
+    const [activeIndexModal, setActiveIndexModal] = useState<number | null>(0)
+    const [selectedModel, setSelectedModel] = useState<string>('')
 
 
     const handleImageClick = (name: string) => {
-        setSelectedModel(name);
-        console.log("Selected model:", name);
-    };
-
-
+        setSelectedModel(name)
+    }
 
     const handleGenerate = async () => {
-
+       
         try {
-            setLoading(true);
+            dispatch(setLoading(true))
+
             const res = await generateImage({
                 prompt: selected?.title || '',
                 model: selectedModel,
-            });
+            })
 
-            console.log("post request response ====>>>", res);
+            if (res?.data?.img) {
+                dispatch(setGeneratedImage({
+                    id: res.data.id,
+                    name: res.data.name || selected?.title || 'Generated Image',
+                    img: res.data.img
+                }))
+            }
 
         } catch (err) {
-            console.error("❌ Generation failed:", err);
+            console.error("❌ Generation failed:", err)
         } finally {
-            setLoading(false);
+            dispatch(setLoading(false))
         }
-    };
-
+    }
 
     return (
         <div className='mx-[20px]'>
